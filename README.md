@@ -19,8 +19,7 @@ How to create the keys?
 Which lenght should I choose?
 You can choose between each positive full number
 If your files should be very safe you should choose a high number but as long as the numbers are, the longer you have to wait till the progress finish.
-If you choose 65536 you have to dividide your number with 8. So 85536/8 is 8192. So you have a 8192 - bit encryption.
-Numbers over 20000 aren't recommended if the datas aren't too important, because it can take hours to generate the key and hours to encrypt and decrypt the locker. If you really need fully security, there is a faster package on https://jimmy1205.neocities.org/faster_locker_version. But remember this version is created by nuitka a C compiler and it can get detected as a virus.
+Numbers over 20000 aren't recommended if the datas aren't too important, because it can take hours to generate the key and hours to encrypt and decrypt the locker. But remember this version is created by nuitka a C compiler and it can get detected as a virus.
 
 Product 1:
     This Product is to save your files or passwords in a folder with the name locker. (filename: locker.exe)
@@ -46,17 +45,15 @@ Problem fixes:
         then you need to add a locker:
         C:\Users\(Your username)\OneDrive\Desktop\locker\locker.
         Put the damaged file in the locker with the other encrypted files and decrypt the files again.
-    2. If you had lost your key, than no problem. Send an email to nguyenhungjimmy.luong@gmail.com and write:
-        I lost my unlock key. The key number is: "insert your key number"
 
 
 Warnings:
-Once you delete the key, all of your data is almost impossible to recoverable. You can try to find out the source code and the key used to encrypt the files, but the key can only encrypt and not decrypt. The key is also almost impossible even if you know the encryption key.
+Once you delete the key, all of your data is almost impossible to recoverable. The key is also almost impossible even if you know the encryption key.
 If you execute your file here: C:\, Windows will get encrypted and that isn't good. Then all your datas will be unrecoverable.
 
 How safe is this method?
     This method is very safe. It is like the Bitlocker just I would say it is safer, because Bitlocker is using a 128 - Bit encryption meanwhile this programms are using a x - Bit encryptions.
-    But the advantage of Bitlocker is you can't lose the method of decryption, because if you loose locker.exe or saver.exe your files are imossible to recover. So a tip save locker.exe or saver.exe too.
+    But the advantage of Bitlocker is you can't lose the method of decryption, because if you loose locker.exe or saver.exe your files are impossible to recover. So a tip save locker.exe too.
     And you can create your "priv.key" with bitlocker but here you have to use the priv.key.
 
 For more Information or questions, please contact nguyenhungjimmy.luong@yahoo.com
