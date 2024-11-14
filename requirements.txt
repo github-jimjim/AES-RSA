@@ -1,0 +1,5 @@
+pycryptodome
+PyQt5
+cpuinfo
+psutil
+tkinter
