@@ -1,0 +1,17 @@
+[package]
+name = "main"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+aes = "0.8"
+ctr = "0.9"
+rsa = "0.7"
+rand = "0.8"
+walkdir = "2.3"
+rayon = "1.5"
+chacha20 = "0.8"
+rfd = "0.9"
+sha2 = "0.10"
+pkcs1 = "0.7"
+pkcs8 = "0.10"
