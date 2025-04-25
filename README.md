@@ -1,105 +1,96 @@
-# Binary-Translator by Jimmy Luong  
+# AES-RSA Folder Encryption Tool
 
-This product is designed to securely store your files and passwords.  
+## Overview
+This tool provides fast, secure encryption of entire folders using a combination of RSA and AES. It consists of three main components:
 
----
+- **genkey** – Generates your cryptographic keys.
+- **main** – Encrypts your folders using the generated keys.
+- **utils** – Provides password and key management utilities.
 
-## Terms of Use  
-
-Date: 27.04.2024  
-
-1. You are not allowed to open the program with other software.  
-2. The Python script must not be converted into other formats.  
-3. Modifying the file is prohibited.  
-4. No warranty is provided for your data. You use this program at your own risk.  
-5. If you close the program before it finishes running, files in the locker folder may become corrupted and irrecoverable.  
-6. For your data's safety, encryption will not occur if the `priv.key` is missing.  
+> The encryption pipeline uses a hybrid scheme: Each file gets a fresh 64-byte master key. The key is encrypted using RSA-OAEP (SHA-256), and then split in half:
+> - First 32 bytes: AES-256 in CTR mode.
+> - Second 32 bytes: ChaCha20.
+> Files are processed in 64 KiB chunks and filenames are encrypted with ChaCha20 + random nonce. Everything runs in parallel using Rayon for high performance.
 
 ---
 
-## How to Check Your Version  
-
-Run `locker.py` and use the command:  
---version
-
-
----
-
-## How to Create the Keys  
-
-1. Run `gen_key.py`.  
-2. Enter the desired length for the keys.  
-3. Two keys and a key length value will be generated. Save these securely (e.g., on a drive or email account).  
-4. After generating each key, press `Windows + R`, type `taskmgr.exe`, and terminate any high CPU processes for `locker.py` if it doesn't stop automatically.  
+## What's New
+This is a complete rewrite in a new language with an entirely new algorithm. Major improvements include:
+- Efficient hybrid AES + ChaCha20 encryption
+- RSA key support up to 8192 bits
+- Parallel file processing using Rayon
+- New UI and utility support for password management
 
 ---
 
-## Recommended Key Length  
+## Getting Started
 
-- Choose any positive whole number.  
-- For high security, opt for a larger number.  
-- Be cautious: lengths over 20,000 may result in long wait times for key generation and encryption processes.  
+### Step 1: Generate Keys (`genkey`)
 
----
+1. Navigate to the `genkey` folder:
+    ```bash
+    cd genkey
+    cargo run --release
+    ```
+2. A window will open to guide you through key configuration.
+3. Recommended RSA key length: **8192 bits** (secure but still performant).
+4. Upon completion, the following files will be created in the `genkey` folder:
+    - `priv.key` – your private key
+    - `pub.key` – your public key
+    - `key_length.txt` – stores the RSA key size
 
-## Product Description  
-
-**Product 1**: Securely lock your files or passwords in a folder named `locker`.  
-
-### How to Lock Your Data  
-
-1. Run `locker.py`. A folder named `locker` will be created.  
-2. Place your files in the folder.  
-3. Run `locker.py` again to lock the folder (do not close the program prematurely).  
-4. Once locked, the folder becomes invisible.  
-5. Locate the generated `priv.key` file and store it securely.  
-6. Save your key number in a safe location and remove it from the Terms of Use.  
-
-### How to Unlock Your Data  
-
-1. Place the `priv.key` file in the same directory as `locker.py`.  
-2. Run `locker.py`. Wait for the program to finish. Your folder will reappear with your files.  
-
-### How It Works  
-
-- The program uses an RSA key to loosely encrypt the `locker` folder.  
-- The folder is then hidden as an added security measure.  
-- You can access the hidden folder by navigating to its directory (e.g., `\locker`).  
-- During decryption, the `priv.key` is used to unlock the folder.  
+**Important:** Save these files securely.
 
 ---
 
-## Troubleshooting  
+### Step 2: Encrypt Files (`main`)
 
-**Corrupted Files After Decryption**  
-1. Place the corrupted file (e.g., `filename.filetype+enc`) in the same directory as `locker.py`.  
-2. Run `locker.py` to encrypt the files again.  
-3. Example: If your folder is in this directory:  C:\Users(Your username)\OneDrive\Desktop\locker
-4. Then place the corrupted file in: C:\Users(Your username)\OneDrive\Desktop\locker\locker
+1. Copy the generated key files (`priv.key`, `pub.key`, and `key_length.txt`) into the `main` folder.
+2. Run the encryption tool:
+    ```bash
+    cd ../main
+    cargo run --release
+    ```
+3. Follow the terminal instructions.
+4. After encryption, a `log` file will be generated in the working directory for verification.
 
- Run `locker.py` to decrypt the files.  
-
----
-
-## Warnings  
-
-1. Once you delete the key, your data is almost impossible to recover.  
-2. If you execute the program in `C:\`, your Windows system may get encrypted, resulting in irrecoverable data loss.  
+> Note: Debug mode may slow down performance.
 
 ---
 
-## How Safe Is This Method?  
+### Step 3: Manage Keys and Passwords (`utils`)
 
-This method is very safe, comparable to BitLocker.  
-- While BitLocker uses 128-bit encryption, this program uses custom x-bit encryption.  
-- However, if you lose `locker.py` or `priv.key`, recovery becomes impossible.  
-- Save both the script and your key securely.  
+1. Run the Python utility script located in the `utils` folder.
+2. Enter your **master password**:
+   - If using for the first time, you may enter any password. **Remember it!**
+3. The UI offers labeled buttons:
+   - **Add Password** – Securely store keys for access.
+   - **Recovery** – Recover lost `password.json` from a backup in your system temp directory.
+
+#### Recovery Notes
+- If you accidentally delete your password file:
+  1. Run the Python script and enter any password.
+  2. **DO NOT** add a new password.
+  3. Click **Recovery** immediately.
+  4. Close the app.
+  5. Reopen with your original password to regain access.
+
+> This recovery method is not highly secure – use it only in emergencies.
+
+#### Adding Keys to Storage
+Use the utility to store your keys encrypted with your master password:
+1. Open the app and enter your password.
+2. Click **Add Password**.
+3. Enter a name for the key.
+4. Choose **From File** and select your `priv.key` or `pub.key`.
+5. Complete the process.
+
+This lets you store your keys securely in e.g. Google Drive while keeping them encrypted locally.
 
 ---
 
-## Contact  
+## Summary
+This project combines high-performance parallel encryption with strong security using AES, ChaCha20, and RSA. It includes helpful utilities for managing keys and recovering from mistakes. Remember to safeguard your master password and key files.
 
-For more information or questions, please contact:  
-**nguyenhungjimmy.luong@yahoo.com**  
-
+Enjoy secure and fast encryption!
 
