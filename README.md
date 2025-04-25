@@ -17,7 +17,6 @@ This tool provides fast, secure encryption of entire folders using a combination
 ## What's New
 This is a complete rewrite in a new language with an entirely new algorithm. Major improvements include:
 - Efficient hybrid AES + ChaCha20 encryption
-- RSA key support up to 8192 bits
 - Parallel file processing using Rayon
 - New UI and utility support for password management
 
